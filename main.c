@@ -192,7 +192,8 @@ int TickFct_NewGame(){
 	return NG_State;
 };
 
-// Output Sequence SM
+// Output Sequence SM:
+// Displays the LED pattern up until pattern index
 const unsigned long period_OutputSeq = 300;
 enum OS_States { OS_Init, OS_Idle, OS_Play, OS_Quiet } OS_State;
 int TickFct_OutputSeq(){
@@ -252,7 +253,10 @@ int TickFct_OutputSeq(){
 	return OS_State;
 };
 
-// Input Sequence SM
+// Input Sequence SM:
+// This is where the user attempts to copy the pattern displayed
+// This SM takes the user's input, displays their input on the LEDs,
+// determines if they are correct, and then proceeds accordingly
 const unsigned long period_InputSeq = 50;
 enum IS_States { IS_Init, IS_Idle, IS_Wait, IS_Display } IS_State;
 int TickFct_InputSeq(){
@@ -347,7 +351,10 @@ int TickFct_InputSeq(){
 	return IS_State;
 };
 
-// End Game SM
+// End Game SM:
+// If the user has won or lost this SM is notified.
+// SM plays a cute LED pattern (which one depends on win or lose)
+// and tells the user to press a button to restart
 const unsigned long period_EndGame = 200;
 enum EG_States { EG_Init, EG_Idle, EG_Win, EG_Lose } EG_State;
 int TickFct_EndGame(){
