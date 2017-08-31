@@ -8,16 +8,20 @@
 
 /////////////////////////////////////////////
 
-#include <stdio.h>
-#include <stdlib.h>
-
-#include <avr/io.h>
-#include "io.c"
+#include <stdio.h>	// Add these libraries
+#include <stdlib.h>	// to use rand()
 
 /////////////////////////////////////////////
 
-#include <avr/sleep.h>
-#include <avr/interrupt.h>
+#include <avr/io.h>	// Add these libraries
+#include "io.c"		// to use LCD screen
+
+/////////////////////////////////////////////
+
+#include <avr/sleep.h>		// Add these libraries
+#include <avr/interrupt.h>	// to use timer and sleep mode
+
+// Initialize Timer Stuff:
 
 volatile unsigned char TimerFlag = 0;
 
@@ -54,6 +58,8 @@ void TimerSet(unsigned long M){
 
 /////////////////////////////////////////////
 
+// Initialize PWM Stuff:
+
 void set_PWM(double frequency) {
     static double current_frequency;
     if (frequency != current_frequency) {
@@ -80,23 +86,11 @@ void PWM_off() {
 
 /////////////////////////////////////////////
 
-unsigned char SetBit(unsigned char x, unsigned char k, unsigned char b){
-    return (b ? x | (0x01 << k) : x & ~(0x01 << k));
-}
-
-unsigned char GetBit(unsigned char x, unsigned char k){
-    return ((x & (0x01 << k)) != 0);
-}
-
-/////////////////////////////////////////////
+// Notes to play on the buzzer
 
 double note_C4 = 261.63;
-double note_D4 = 293.66;
 double note_E4 = 329.63;
-double note_F4 = 349.23;
 double note_G4 = 392.00;
-double note_A5 = 440.00;
-double note_B5 = 493.88;
 double note_C5 = 523.25;
 
 /////////////////////////////////////////////
@@ -115,8 +109,8 @@ const unsigned char tasksNum = 4;
 const unsigned long tasksPeriodGCD = 50;
 
 // Global Variables
-unsigned char pattern[9];
-unsigned char pIndex;
+unsigned char pattern[9];	// Holds numbers 1-4 representing which LED's to light up
+unsigned char pIndex;		// Pattern array index
 unsigned char numWins, numLosses;
 
 // Flags
@@ -124,7 +118,9 @@ unsigned char firstRound, startNew, playSeq, getInput, endGame, gameWon, gameLos
 
 // State Settings and Tick Functions
 
-// New Game SM
+// New Game SM :
+// Happens at the start of each game.
+// Set's up the pattern array, among other things.
 const unsigned long period_NewGame = 100;
 enum NG_States { NG_Init, NG_Idle, NG_Setup, NG_Wait1, NG_Wait2 } NG_State;
 int TickFct_NewGame(){
@@ -449,13 +445,13 @@ void TimerISR(){
 // Main
 int main(){
 	
-	// PORT Initialization
+	// PORT Initializations
 	DDRA = 0x00; PORTA = 0xFF;
 	DDRB = 0xFF; PORTB = 0x00;
 	DDRC = 0xFF; PORTC = 0x00;
 	DDRD = 0xFF; PORTD = 0x00;
 	
-	// Tasks Initialization
+	// 'tasks' Initialization
 	unsigned char i=0;
 	tasks[i].state		 = NG_Init;
 	tasks[i].period		 = period_NewGame;
