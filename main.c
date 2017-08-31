@@ -246,7 +246,6 @@ int TickFct_OutputSeq(){
 			break;
 		case OS_Quiet :
 			PORTB = 0x00; set_PWM(0);
-	//		i++;
 			break;
 	}
 	
