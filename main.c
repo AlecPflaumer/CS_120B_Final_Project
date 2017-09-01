@@ -262,7 +262,6 @@ int TickFct_InputSeq(){
 	
 	// Local Variables
 	static unsigned char i;
-	static unsigned char dispCount;
 	static unsigned char userInput;
 	
 	// Transitions
@@ -284,7 +283,6 @@ int TickFct_InputSeq(){
 		case IS_Wait :
 			if (userInput){
 				IS_State = IS_Display;
-				dispCount = 0;
 			}
 			else {
 				IS_State = IS_Wait;
@@ -343,7 +341,6 @@ int TickFct_InputSeq(){
 				case 3: PORTB = 0x04; set_PWM(note_E4); break;
 				case 4: PORTB = 0x08; set_PWM(note_C4); break;
 			}
-			dispCount++;
 			break;
 	}
 	
